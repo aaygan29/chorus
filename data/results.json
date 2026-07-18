@@ -1,0 +1,462 @@
+{
+ "paradigm_agg": {
+  "Autonomous (no drive)": {
+   "frac_reached": [
+    0.004166666666666667,
+    0.011023963796102461
+   ],
+   "mean_final_dist": [
+    16.3553091806224,
+    1.2317510568968868
+   ],
+   "median_time_to_source": [
+    260.0,
+    0.0
+   ],
+   "aggregation": [
+    7.799762517213821,
+    3.584642845323592
+   ]
+  },
+  "Centralized Conductor": {
+   "frac_reached": [
+    0.8875,
+    0.06441510347391793
+   ],
+   "mean_final_dist": [
+    5.141643657884979,
+    0.8365948632943229
+   ],
+   "median_time_to_source": [
+    114.875,
+    13.104746277589658
+   ],
+   "aggregation": [
+    7.149191677570343,
+    1.1766252105864528
+   ]
+  },
+  "Decentralized (boids+gradient)": {
+   "frac_reached": [
+    0.42083333333333334,
+    0.14037400439935846
+   ],
+   "mean_final_dist": [
+    12.477793688451023,
+    1.6082412330199205
+   ],
+   "median_time_to_source": [
+    235.125,
+    41.32020540849234
+   ],
+   "aggregation": [
+    13.851221203804016,
+    0.6120807292869659
+   ]
+  },
+  "Leader-follower (informed few)": {
+   "frac_reached": [
+    0.15416666666666667,
+    0.033071891388307385
+   ],
+   "mean_final_dist": [
+    13.411327498105143,
+    3.654411726385856
+   ],
+   "median_time_to_source": [
+    260.0,
+    0.0
+   ],
+   "aggregation": [
+    5.308998927474022,
+    1.9104445866395392
+   ]
+  },
+  "Stigmergy (pheromone trails)": {
+   "frac_reached": [
+    0.19166666666666668,
+    0.08122328620674137
+   ],
+   "mean_final_dist": [
+    16.260040951884946,
+    1.090272578689319
+   ],
+   "median_time_to_source": [
+    260.0,
+    0.0
+   ],
+   "aggregation": [
+    11.876786231994629,
+    1.3581977248905783
+   ]
+  }
+ },
+ "sphinx": {
+  "intact": {
+   "frac_reached": [
+    0.8875,
+    0.06441510347391793
+   ],
+   "mean_final_dist": [
+    5.141643657884979,
+    0.8365948632943229
+   ],
+   "median_time_to_source": [
+    114.875,
+    13.104746277589658
+   ],
+   "aggregation": [
+    7.149191677570343,
+    1.1766252105864528
+   ]
+  },
+  "shuffle": {
+   "frac_reached": [
+    0.8375,
+    0.07347996703561832
+   ],
+   "mean_final_dist": [
+    6.069859485668046,
+    1.8182533820313493
+   ],
+   "median_time_to_source": [
+    123.8125,
+    18.6261534877709
+   ],
+   "aggregation": [
+    8.788825511932373,
+    2.315635124364791
+   ]
+  },
+  "sign_scramble": {
+   "frac_reached": [
+    0.9083333333333333,
+    0.039965262694272655
+   ],
+   "mean_final_dist": [
+    4.851604686783092,
+    0.48156445380600366
+   ],
+   "median_time_to_source": [
+    113.0625,
+    11.378261894946872
+   ],
+   "aggregation": [
+    7.262743651866913,
+    0.6571586022797248
+   ]
+  },
+  "random_graph": {
+   "frac_reached": [
+    0.8208333333333333,
+    0.0575844790045219
+   ],
+   "mean_final_dist": [
+    5.86317019666301,
+    0.3822614825581188
+   ],
+   "median_time_to_source": [
+    128.25,
+    16.996323131783534
+   ],
+   "aggregation": [
+    8.436264216899872,
+    0.6019626896073533
+   ]
+  }
+ },
+ "gain_sweep": {
+  "0.4": [
+   0.25,
+   0.3888888888888889,
+   -0.1388888888888889
+  ],
+  "0.7": [
+   0.4777777777777777,
+   0.5333333333333333,
+   -0.055555555555555636
+  ],
+  "1.0": [
+   0.638888888888889,
+   0.6611111111111112,
+   -0.022222222222222254
+  ],
+  "1.5": [
+   0.8666666666666667,
+   0.7666666666666667,
+   0.09999999999999998
+  ],
+  "2.5": [
+   0.9166666666666669,
+   0.8333333333333334,
+   0.08333333333333348
+  ],
+  "4.0": [
+   0.9444444444444445,
+   0.8833333333333334,
+   0.061111111111111116
+  ],
+  "6.0": [
+   0.9666666666666667,
+   0.9277777777777777,
+   0.03888888888888897
+  ]
+ },
+ "degrade_edge": {
+  "0.0": [
+   0.8666666666666667,
+   0.08606629658238703
+  ],
+  "0.1": [
+   0.8277777777777778,
+   0.12082535094961973
+  ],
+  "0.2": [
+   0.8166666666666668,
+   0.1197992147380435
+  ],
+  "0.3": [
+   0.838888888888889,
+   0.08906233078823
+  ],
+  "0.4": [
+   0.8444444444444446,
+   0.09362388636862623
+  ],
+  "0.5": [
+   0.8666666666666668,
+   0.06382847385042253
+  ],
+  "0.65": [
+   0.8222222222222223,
+   0.11166528467912103
+  ],
+  "0.8": [
+   0.8833333333333334,
+   0.05692750425533109
+  ]
+ },
+ "degrade_noise": {
+  "0.0": [
+   0.8666666666666667,
+   0.08606629658238703
+  ],
+  "0.05": [
+   0.8055555555555555,
+   0.12680791345014808
+  ],
+  "0.1": [
+   0.7000000000000001,
+   0.06666666666666668
+  ],
+  "0.2": [
+   0.5833333333333334,
+   0.07136240321480626
+  ],
+  "0.3": [
+   0.3833333333333333,
+   0.09765775461803859
+  ],
+  "0.5": [
+   0.2333333333333333,
+   0.07200822998230955
+  ],
+  "0.8": [
+   0.15,
+   0.0569275042553311
+  ]
+ },
+ "bci_electrode_sweep": {
+  "2": [
+   0.04,
+   62.6278346150846
+  ],
+  "4": [
+   0.8,
+   29.564262176687166
+  ],
+  "6": [
+   0.8,
+   42.15143818990011
+  ],
+  "8": [
+   0.92,
+   21.243496144915984
+  ],
+  "12": [
+   0.8,
+   26.765809352700362
+  ],
+  "16": [
+   0.84,
+   13.990354278925205
+  ]
+ },
+ "bci_noise": {
+  "0.0": 0.92,
+  "0.1": 0.8,
+  "0.2": 0.92,
+  "0.35": 0.88,
+  "0.5": 0.88,
+  "0.8": 0.72
+ },
+ "bci_swarm_reach": {
+  "clean": 0.76,
+  "el8": 0.92,
+  "el4": 0.8
+ },
+ "step3_control_authority": {
+  "L1_capture_threshold_amp": 0.05,
+  "L1_openloop_bumpdrag_amp": 0.7,
+  "L1_note": "goal-write is a switch: <0.05 no capture (~84\u00b0 random), >=0.05 locks <3\u00b0, saturates <0.5\u00b0. Open-loop bump repositioning needs amp>=0.7 to overcome recurrence.",
+  "L2_slope": 1.0,
+  "L2_linear": true,
+  "L2_range_radstep": [
+   -0.4,
+   0.4
+  ],
+  "L4_slope": 1.0,
+  "L4_linear": true,
+  "L4_range": [
+   0,
+   2.0
+  ],
+  "crosstalk": "levers orthogonal: L4 moves speed only, L2 moves turn only, L5 zeroes both, L6 flips sign only",
+  "L5_stop": "speed->0",
+  "L6_reverse": "speed sign flip, magnitude preserved"
+ },
+ "step4_precision": {
+  "angular_mean_err_deg": 0.412,
+  "angular_settle_steps": 12.7,
+  "angular_uniform": "sub-degree (0.3-0.6\u00b0) with no directional bias across full circle",
+  "p2p_final_err_units": 0.924,
+  "p2p_arrival_pct": 100.0,
+  "p2p_path_eff": 0.773,
+  "p2p_note": "proximity speed taper (closed-loop L4) eliminates orbiting; 100% arrival, 0.9u final error",
+  "electrode_sweep": {
+   "2": [
+    45.0,
+    26.7
+   ],
+   "3": [
+    30.0,
+    18.3
+   ],
+   "4": [
+    22.5,
+    14.3
+   ],
+   "6": [
+    15.1,
+    10.6
+   ],
+   "8": [
+    10.1,
+    7.0
+   ],
+   "12": [
+    7.6,
+    7.4
+   ],
+   "16": [
+    5.1,
+    3.4
+   ],
+   "24": [
+    0.2,
+    0.1
+   ],
+   "32": [
+    2.5,
+    1.7
+   ]
+  },
+  "minimal_implant": "error ~ 90/n deg; 8 electrodes ~10 deg (sweet spot), 16 ~5 deg, 4 ~22 deg"
+ },
+ "step5_trajectory": {
+  "crosstrack_rms_u": {
+   "figure-8": 0.167,
+   "circle": 0.18,
+   "S-curve": 1.035
+  },
+  "bandwidth_floor": 0.2,
+  "bandwidth_note": "tracking collapses below ~0.2 frac/step (command cannot follow path curvature); above 0.35 RMS saturates ~0.17u",
+  "electrode_floor": "4 electrodes still track figure-8 to 0.34u (continuous pursuit averages over quantization); saturates by 16",
+  "headline": "streamed goal+speed traces arbitrary parametric shapes to <0.2u cross-track on real connectome; the finest-control demonstration"
+ },
+ "step6_swarm": {
+  "converge_40": {
+   "final_dist_u": 0.92,
+   "arrival_pct": 100
+  },
+  "ring_formation_36": {
+   "slot_err_u": 0.92,
+   "in_slot_pct": 100
+  },
+  "split_45_to_3": {
+   "mean_err_u": 0.92,
+   "arrival_pct": 100
+  },
+  "spell_CX_50": {
+   "slot_err_u": 0.93,
+   "in_place_pct": 100
+  },
+  "key_insight": "each fly independent real-connectome CX, individually BCI-addressed, NO inter-fly comms; swarm control is embarrassingly parallel single-fly control. Requires per-fly compass calibrated to allocentric heading (init bug: randomizing body heading without compass gives fixed offset -> divergence)."
+ },
+ "step7_robustness": {
+  "gust_rejection": {
+   "0.05": [
+    13.0,
+    5
+   ],
+   "0.1": [
+    26.9,
+    9
+   ],
+   "0.2": [
+    61.3,
+    12
+   ],
+   "0.4": [
+    177.7,
+    19
+   ],
+   "units": "peak_dev_deg, recovery_steps"
+  },
+  "electrode_dropout": "tolerant to ~12% (0\u00b0 err); 25% -> 7.5\u00b0; 50% -> 45\u00b0; degrades as live sites drop",
+  "goal_noise_lowpass": "ring attractor filters BCI jitter: \u03c3=60\u00b0 in -> 8.3\u00b0 out (7x attenuation); \u03c3=15\u00b0 -> 1.6\u00b0",
+  "connectome_variability": "\u00b120% weight jitter tolerated (18\u00b0 err, bump held 88%); \u00b150% -> 72\u00b0 err, 50% held",
+  "closed_loop_bw_cyc_per_step": 0.05,
+  "bode": "first-order-like; -3dB at ~0.04-0.05 cyc/step, -45\u00b0 phase margin near 0.05 cyc/step"
+ },
+ "step9_spiking_validation": {
+  "model": "leaky integrate-and-fire, 45 EPG excitatory + Delta7 inhibitory pool, tau_m=20ms, tau_syn=5ms, 25ms/control-step",
+  "operating_point": {
+   "J_EE": 1.5,
+   "J_EI": 2.0,
+   "J_IE": 2.5,
+   "I_bias": 18.0,
+   "J_pen": 25.0
+  },
+  "bump_forms": true,
+  "persistence_hold_err_deg": 8.8,
+  "rate_model_hold_deg": 5.1,
+  "free_attractor_drift_deg": {
+   "at_1s": 13.5,
+   "at_5s": 15.9
+  },
+  "pointing_dead_reckoning_only_deg": 98.5,
+  "pointing_with_visual_anchor": {
+   "gain6": 1.3,
+   "gain14": 0.6,
+   "gain26": 0.4
+  },
+  "pointing_final_mean_deg": 0.45,
+  "pointing_uniform_std_deg": 0.12,
+  "rate_model_pointing_deg": 0.41,
+  "settling_steps_median": 10,
+  "point_to_point_arrival_pct": 100.0,
+  "point_to_point_final_err_u": 0.9,
+  "KEY_FINDING": "Attractor + closed-loop control transfer to spiking dynamics EXACTLY (0.45 vs 0.41 deg pointing, 100% arrival), but ONLY given a heading reference (ER visual anchor). Pure PEN dead-reckoning is fragile in spikes (~98 deg). This sharpens the structure!=dynamics thesis: the connectome motif + calibrated E/I gives a working attractor even in spikes, but absolute-heading control needs the sensory reference real flies use (sun/polarization via ring neurons)."
+ }
+}
