@@ -3,7 +3,7 @@
 ## 0. Outcome, stated up front
 
 **NOT REPRODUCED.** The ~24 deg von Mises recurrent-kernel half-width
-reported in docs/CHORUS_fine_control.md section 2 (and docs/PAPER.md section
+reported in CHORUS_fine_control.md section 2 (and CHORUS_fine_control.md section
 2) cannot be reproduced from the code and data that survive in this repo.
 Every principled combination of half-width definition, disynaptic loop
 composition, and fit configuration tested here, run on the real FlyWire v783
@@ -24,12 +24,12 @@ against the published number.
 
 ## 1. Forensics — what survives, what does not
 
-Read in full: docs/CHORUS_fine_control.md sections 1-2, docs/PAPER.md
-(identical section 1-2 text), docs/CHORUS_research_study.md,
-docs/CHORUS_swarm_findings.md, docs/DENSITY_CONTROL.md, and
+Read in full: CHORUS_fine_control.md sections 1-2, CHORUS_fine_control.md
+(identical section 1-2 text), CHORUS_research_study.md,
+CHORUS_swarm_findings.md, DENSITY_CONTROL.md, and
 code/cx_real_dynamics.py, code/cx_ring.py, code/cx_connectome.py,
 code/cx_actuation.py, code/chorus_sim.py, code/chorus_controllers.py,
-code/chorus_env.py, data/flywire/results.json. This repo has no `.git`
+code/chorus_env.py, data/results.json. The working tree used for this forensics pass had no `.git`
 history to mine (`git log` fails: not a git repository), so there is no
 commit trail to a deleted kernel-fitting script either.
 
@@ -61,13 +61,13 @@ commit trail to a deleted kernel-fitting script either.
   note above: whatever phase representation the kernel and the downstream
   ring both use, it is this synthetic 16-point tiling, and cx_ring.py's own
   docstring is stale/inaccurate about it.
-- `data/flywire/results.json`: 14 top-level keys, all from steps 3 onward
+- `data/results.json`: 14 top-level keys, all from steps 3 onward
   (paradigm_agg, sphinx, gain_sweep, degrade_edge, degrade_noise,
   bci_electrode_sweep, bci_noise, bci_swarm_reach, step3_control_authority
   through step9_spiking_validation). Searched exhaustively for "kappa",
   "kernel", "318", "hwhm", "von_mises", "half_width", "24." — **zero
   matches.** No step1/step2 record survives in this file at all.
-- `data/flywire/cx_nodes.csv`: columns are exactly `root_id, cell_type,
+- `data/cx_nodes.csv`: columns are exactly `root_id, cell_type,
   side, nt`. **No position, no bridge-column, no glomerulus index, no phase
   column.** The anatomical "position around the protocerebral bridge" that
   section 1's phase-profile analysis used is not recoverable from this file.
@@ -239,7 +239,7 @@ N=1051 n_EPG=47
   But that convention alone does not rescue the FlyWire measurement: applying the same
   sigma-approx formula to every independently measured kappa above still misses 24 deg,
   because the measured kappa itself (~3.4-3.7) differs from the calibrated 5.6-5.7 needed.
-  The anatomical EPG phase (position around the protocerebral bridge, docs/CHORUS_fine_control.md
+  The anatomical EPG phase (position around the protocerebral bridge, CHORUS_fine_control.md
   section 1) that the original study used is not present in cx_nodes.csv (only root_id,
   cell_type, side, nt survive), so that phase-recovery method cannot be tested here; inventing
   an ordering to fill that gap would be exactly the kind of fudge factor this test forbids.
@@ -252,7 +252,7 @@ N=1051 n_EPG=47
 NOT REPRODUCED. No definition/loop-subset/fit-range combination tested on the real
 FlyWire disynaptic kernel, using only what survives in this repo, lands in the
 22-26 deg acceptance band with an inhibitory surround. The published 24 deg figure
-cannot currently be reproduced from surviving code and data. See docs/KERNEL_RECOVERY.md.
+cannot currently be reproduced from surviving code and data. See KERNEL_RECOVERY.md.
 ```
 
 ## 5. What this means for the female-vs-male comparison
@@ -271,17 +271,17 @@ until one of two things happens:
    that the calibrated ring model (cx_ring.py kappa=5.6 etc.) and the
    measurement method (measure_kernel.py) are not currently reconciled.
 
-Reporting the male (36.7 to 45.6 deg female-comparison language notwithstanding, note the correct FlyWire number under measure_kernel.py's own method is 36.7 deg, matching docs/DENSITY_CONTROL.md exactly) vs. female difference as a 24% structural finding while a same-method, same-data reproducibility check on the reference number is off by 53% is not currently defensible. This document does not resolve that gap; it documents, with numbers, exactly where the gap comes from and where it doesn't.
+Reporting the male (36.7 to 45.6 deg female-comparison language notwithstanding, note the correct FlyWire number under measure_kernel.py's own method is 36.7 deg, matching DENSITY_CONTROL.md exactly) vs. female difference as a 24% structural finding while a same-method, same-data reproducibility check on the reference number is off by 53% is not currently defensible. This document does not resolve that gap; it documents, with numbers, exactly where the gap comes from and where it doesn't.
 
 ## 6. Files
 
 - `code/measure_kernel_v2.py` — the acceptance-test script (new, does not
   modify measure_kernel.py). Run: `python3 measure_kernel_v2.py` from
-  `code/` (uses relative paths to `../data/flywire/...`, matching
+  `code/` (uses relative paths to `../data/...`, matching
   measure_kernel.py's own convention).
 - This document.
 
 No other files were modified. `code/measure_kernel.py`,
-`docs/DENSITY_CONTROL.md`, `docs/MALECNS_EXTRACTION.md`,
+`DENSITY_CONTROL.md`, `MALECNS_EXTRACTION.md`,
 `code/chorus_env.py`, `code/run_env.py`, `code/test_env_regression.py`, and
 `README.md` were read but not changed, per instructions.

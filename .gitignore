@@ -1,3 +1,9 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Bulk MaleCNS source tables (1.1 GB). Re-download with code/extract_malecns_cx.py
+# or from https://male-cns.janelia.org/download/ . Derived CX subgraphs are
+# committed under data/malecns_cx/.
+data/malecns/
+*.feather

@@ -1,7 +1,7 @@
 # MaleCNS v1.0 central-complex extraction
 
 Extracts a CX subgraph from the MaleCNS v1.0 connectome into the same schema
-CHORUS already consumes for FlyWire v783 (data/flywire/cx_real.npz +
+CHORUS already consumes for FlyWire v783 (data/cx_real.npz +
 cx_nodes.csv, loaded by code/cx_real_dynamics.py `load()`). Script:
 code/extract_malecns_cx.py.
 
@@ -157,7 +157,7 @@ tagged). Net: the correspondence is essentially complete at the family
 level and the residual mismatches are sub-type bookkeeping, not real
 biological gaps.
 
-## Sanity check: textbook circuit signs (docs/CHORUS_fine_control.md Section 1)
+## Sanity check: textbook circuit signs (CHORUS_fine_control.md Section 1)
 
 | population | claim | male result | flywire result | agree? |
 |---|---|---|---|---|
