@@ -5,7 +5,7 @@
 prototype that implements the proposal's Stage D (drive) and Stage E (population),
 borrows five coordination paradigms from the drone-swarm / collective-behaviour
 literature, and runs the Stage ④ validation gauntlet. Everything here is
-reproducible from `chorus_sim.py` + `chorus_controllers.py`.*
+reproducible from `code/legacy/chorus_sim.py` + `code/legacy/chorus_controllers.py`.*
 
 ---
 

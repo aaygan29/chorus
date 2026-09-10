@@ -27,8 +27,8 @@ against the published number.
 Read in full: CHORUS_fine_control.md sections 1-2, CHORUS_fine_control.md
 (identical section 1-2 text), CHORUS_research_study.md,
 CHORUS_swarm_findings.md, DENSITY_CONTROL.md, and
-code/cx_real_dynamics.py, code/cx_ring.py, code/cx_connectome.py,
-code/cx_actuation.py, code/chorus_sim.py, code/chorus_controllers.py,
+code/cx_real_dynamics.py, code/cx_ring.py, code/legacy/cx_connectome.py,
+code/cx_actuation.py, code/legacy/chorus_sim.py, code/legacy/chorus_controllers.py,
 code/chorus_env.py, data/results.json. The working tree used for this forensics pass had no `.git`
 history to mine (`git log` fails: not a git repository), so there is no
 commit trail to a deleted kernel-fitting script either.

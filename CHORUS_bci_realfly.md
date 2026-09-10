@@ -34,7 +34,7 @@ things had to change to make this about **real flies with implants**:
    circuit does the steering. That is why this is feasible in a real animal: you are
    borrowing the navigation controller the fly already has.
 
-## 2. What was built and tested (all reproducible from `cx_connectome.py`)
+## 2. What was built and tested (all reproducible from `code/legacy/cx_connectome.py`)
 
 - A calibrated CX ring attractor: verified it **holds a stable heading** (bump std
   0.01 rad at rest) and **tracks imposed rotation** (dead-reckoning), with a
