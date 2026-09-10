@@ -1,7 +1,7 @@
 """Measure the effective EPG->EPG recurrent kernel from real disynaptic loops
 (EPG->PEG->EPG, EPG->Delta7->EPG, EPG->PEN_a/PEN_b->EPG) and fit a von Mises
-profile to get a half-width in degrees, per docs/CHORUS_fine_control.md
-section 2 / docs/PAPER.md section 2 ("~24 deg half-width with a weak
+profile to get a half-width in degrees, per CHORUS_fine_control.md
+section 2 / CHORUS_fine_control.md section 2 ("~24 deg half-width with a weak
 inhibitory surround"). No existing implementation of this measurement was
 found anywhere in code/ (cx_ring.py just hardcodes kappa=5.6 as the already-
 calibrated kernel; it does not derive it from data), so this is a fresh

@@ -1,5 +1,5 @@
 """CHORUS closed-loop task environment. The connectome-grounded fly (real CX
-ring attractor, calibrated per docs/CHORUS_fine_control.md) is the agent's
+ring attractor, calibrated per CHORUS_fine_control.md) is the agent's
 body; the only write channel is the BCI goal-heading + speed lever (L1+L4).
 Connectome-agnostic: pass any (npz, csv) pair matching the FlyWire schema
 (W signed float32, root_ids int64, nodes root_id/cell_type/side/nt) and it

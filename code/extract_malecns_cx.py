@@ -1,5 +1,5 @@
 """Extract the central-complex (CX) subgraph from MaleCNS v1.0 into the same
-schema as data/flywire/cx_real.npz + cx_nodes.csv (see code/cx_real_dynamics.py load()).
+schema as data/cx_real.npz + cx_nodes.csv (see code/cx_real_dynamics.py load()).
 
 Outputs (in --out-dir):
   cx_nodes_male.csv, cx_real_male.npz               (with FC2)

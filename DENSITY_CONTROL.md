@@ -1,6 +1,6 @@
 # Density control for the MaleCNS vs FlyWire CX comparison
 
-The male CX extraction (docs/MALECNS_EXTRACTION.md) is substantially denser
+The male CX extraction (MALECNS_EXTRACTION.md) is substantially denser
 than the FlyWire v783 reference, on a family-matched neuron set. Before any
 claim about the male connectome's dynamics is attributed to sex/individual
 differences, this needs to be separated from reconstruction depth
@@ -86,7 +86,7 @@ codebase.** `code/cx_ring.py` uses an *already-calibrated* von Mises kernel
 it does not derive kappa from connectivity. `code/cx_real_dynamics.py`
 accepts an `ann_phase` argument but never computes it. So `code/
 measure_kernel.py` is a new script, written specifically for this task,
-implementing the measurement docs/CHORUS_fine_control.md section 2
+implementing the measurement CHORUS_fine_control.md section 2
 describes: the effective EPG->EPG interaction through real disynaptic loops
 EPG->PEG->EPG, EPG->Delta7->EPG, EPG->PEN_a->EPG, EPG->PEN_b->EPG (computed
 as the matrix product W[EPG,m] @ W[m,EPG] summed over intermediate

@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 from chorus_env import ChorusEnv, PursuitTask, TrackingTask, ObstacleTask, wrap
 
 CONNECTOMES = {
-    'flywire': ('../data/flywire/cx_real.npz', '../data/flywire/cx_nodes.csv'),
+    'flywire': ('../data/cx_real.npz', '../data/cx_nodes.csv'),
     'malecns': ('../data/malecns_cx/cx_real_male.npz', '../data/malecns_cx/cx_nodes_male.csv'),
 }
 

@@ -1,147 +1,239 @@
-# CHORUS — Connectome-Held Organism Reconstruction & Unified Steering
+# CHORUS
 
-Fine control of a connectome-grounded *Drosophila* swarm via a minimal implantable BCI.
-All dynamics run on the **real FlyWire v783** central-complex connectome
-(1,051 neurons, 64,909 signed edges, 381,592 synapses) — not a hand-drawn motif.
+**Connectome-Held Organism Reconstruction & Unified Steering**
 
-## What's here
+Putting a real insect connectome inside a closed control loop, and measuring what
+the connectome actually contributes to the behaviour that comes out.
 
-- **PAPER.md** — the full control monograph (read this first). Figures render
-  inline from `figures/` when opened in any Markdown viewer.
-- **figures/** — the 8 publication figures (PNG).
-- **code/** — the simulation stack:
-  - `cx_ring.py`         rate ring-attractor compass (EPG/PEN/Δ7)
-  - `cx_spiking.py`      leaky integrate-and-fire spiking validation of the same ring
-  - `cx_actuation.py`    the BCI actuation stack + BCIFly body model + swarm driver
-  - `cx_real_dynamics.py` builds the attractor on the real FlyWire connectome
-  - `chorus_env.py`      closed-loop Gym-like task environment (see below)
-  - `run_env.py`         headless CLI runner for the task environment
-  - `test_env_regression.py` regression gate checking the env against the published numbers
-- **data/**
-  - `cx_real.npz`        real CX subgraph (signed weight matrix, phases)
-  - `cx_nodes.csv`       CX neuron table (ids, types, neurotransmitters)
-  - `control_levers.csv` the 6 literature-grounded actuation levers + citations
-  - `results.json`       all quantitative results (steps 3–9)
-  - `spiking_*.npz`      spiking-validation raster / pointing / walk data
+CHORUS drives a simulated *Drosophila* by writing a single one-dimensional goal
+heading into the central complex, the fly's navigation hub, and letting the fly's
+own steering circuit close the loop. It runs on two real connectomes: the FlyWire
+v783 female brain and the MaleCNS v1.0 male brain and ventral nerve cord.
 
-## Headline results (all on the real connectome)
+## Why this exists
 
-| Capability | Result |
-|---|---|
-| Angular pointing error | 0.41° mean, uniform around the circle |
-| Settling to <10° lock | ~13 steps |
-| Point-to-point reach (no odor) | 100% arrival, 0.9 u error |
-| Trajectory tracking (figure-8) | 0.17 u cross-track RMS |
-| Swarm formation / split / shape-spell | 100% in-slot, no inter-fly comms |
-| Minimal implant | ~8 electrodes → ~10° heading error |
-| Spiking validation | rate-model precision reproduced in LIF, given a heading reference |
+In September 2026 a collaboration between HHMI Janelia, the University of
+Cambridge, the MRC Laboratory of Molecular Biology and Google Research released
+the complete connectome of a male *Drosophila* central nervous system: over
+166,000 neurons and roughly 125 million synaptic connections spanning brain and
+nerve cord in a single animal. Within days, developers had wired that connectome
+into video games, mapping frames onto sensory neurons and neural activity onto
+game controls.
 
-## The one load-bearing caveat (structure ≠ dynamics)
+Those demos ask an interesting question in an uninstrumented way. Connecting a
+connectome to a game and watching what happens tells you very little, because
+there is no measurement that separates "the connectome is computing something"
+from "the harness around it is computing something." A network that produces
+plausible-looking behaviour may be contributing nothing at all, and without an
+ablation you cannot tell.
 
-The raw connectome weights collapse to a single pinned state — the wiring alone
-gives the ring *motif* but not a working attractor. A steerable continuous
-attractor emerges only after E/I gains are calibrated to the measured ~24°
-recurrent kernel. The spiking model sharpens this into a **design specification**:
-the goal must live in a separate FC2 layer (never injected into the compass), and
-a heading reference (ER ring neurons / landmark / sun) is required — exactly what
-real fly navigation uses. See PAPER.md §2 and §13, and RESPONSIBLE_DISCLOSURE.md.
+CHORUS asks the same question with the measurement attached. The fly is placed in
+closed-loop tasks (pursuit, trajectory tracking, obstacle avoidance) driven only
+through a biologically precedented control channel, the outputs are control
+fidelity rather than a score, and the connectome is ablated against matched nulls
+to test whether it is load-bearing.
 
-## Closed-loop task environment (`chorus_env.py`)
+The current answer is not a clean yes, and this repository documents that
+honestly. See **Current status** below.
 
-The connectome-analogue of the "connectome plays a game" demos, built as a
-control instrument rather than a stunt: the measured output is control
-fidelity (pointing error, cross-track RMS, arrival rate), not a score.
+## The control approach
 
-`ChorusEnv` is connectome-agnostic: it takes any `(npz, csv)` pair matching the
-FlyWire schema (`W` signed float32, `root_ids` int64; nodes `root_id,cell_type,
-side,nt`) and runs unchanged. Only the count of EPG-family neurons is read from
-the connectome; the calibrated ring kernel (`kappa=5.6, w_exc=1.9, w_inh=0.28`)
-is applied regardless of which connectome is loaded, since raw connectome
-weights do not by themselves give a working attractor (§2 of the monograph).
-Applying the FlyWire-measured kernel to a second species without re-measuring
-its own recurrent kernel is a modeling assumption, not a validated fact, and is
-flagged as such in the module docstring.
+A fly performing menotaxis holds an arbitrary goal heading with no gradient
+present, because the goal is represented internally. So a brain-computer interface
+does not need to fake a stimulus. It writes the goal, and the fly's own ring
+attractor does the steering.
 
-Gym-like API, dependency-light (numpy/scipy/pandas/matplotlib only; a thin
-`GymChorusEnv` wrapper is exposed if `gymnasium` happens to be importable):
+Six actuation levers were mapped from the *Drosophila* navigation literature, five
+with direct in-vivo optogenetic precedent. The anchor is **L1**, a goal-heading
+write into the FC2 layer, which has a direct demonstration in a behaving animal
+(Mussells Pires, Abbott & Maimon 2024, *Nature*). Full taxonomy in
+`data/control_levers.csv` and section 3 of the monograph.
+
+## The central finding: structure does not determine dynamics
+
+This is the most robust result here and the one worth carrying forward.
+
+When the extracted signed weight matrix is used directly as the recurrent matrix
+of a rate network, the heading bump does **not** behave as a continuous attractor.
+It collapses onto a single globally pinned location regardless of input. The
+wiring supplies the ring attractor's motif, but not a working ring attractor.
+
+A steerable continuous attractor appears only after the excitatory/inhibitory
+balance is calibrated. The connectome tells you the circuit; the synaptic gains
+decide whether that circuit computes.
+
+This now replicates on a second connectome. The MaleCNS CX pins at 90.0 degrees
+with a standard deviation of 0.0004 across every seed and every commanded goal
+(`ABLATION_SPECIFICITY.md`).
+
+## Current status, and three open problems
+
+The published control results (0.41 degree pointing, 0.17 unit figure-8 tracking,
+100% point-to-point arrival) were produced by the calibrated ring pipeline, not by
+simulating the raw connectome. That distinction was under-stated in earlier
+versions of this README, which described the results as "all on the real
+connectome." The accurate statement is that they run on a ring attractor whose
+kernel width and population structure are derived from the real connectome.
+
+Three problems currently prevent a clean claim in either direction:
+
+1. **The pipeline that uses the connectome does not work.** `cx_real_dynamics.py`
+   simulates the real weight matrix and pins, exactly as section 2 describes.
+2. **The pipeline that works does not use the connectome.** `chorus_env.py`
+   reproduces the published numbers while building the ring from a canonical
+   16-wedge tiling with fitted gains. It loads the weight matrix and never reads
+   it.
+3. **The bridge between them cannot be reproduced.** The only channel from
+   connectome to calibrated model is the measured recurrent kernel. The code that
+   produced the published ~24 degree figure is not in this repository, and
+   independent reimplementation gives 30.7 to 36.7 degrees depending on
+   convention. The published value is recovered exactly as `1/sqrt(5.6)`, the
+   circular standard deviation of the *calibrated* kappa, which raises the
+   possibility that the measurement and the calibration are the same number
+   (`KERNEL_RECOVERY.md`).
+
+Until one of these changes, the connectome cannot be shown to be load-bearing for
+the fine-control results, in either direction. The unblocking step is problem 3.
+
+## What the ablation found
+
+20 seeds per condition on the pipeline that does read the weight matrix, with the
+null re-randomized per seed (`ABLATION_SPECIFICITY.md`).
+
+| Condition | Pointing (deg) | Figure-8 RMS | Arrival |
+|---|---|---|---|
+| intact | 71.1 +/- 7.8 | 9.86 +/- 1.00 | 0.0% |
+| sign_scramble | 87.0 +/- 3.9 | 12.89 +/- 0.52 | 1.9% |
+| edge_shuffle | 81.2 +/- 12.1 | 9.84 +/- 3.35 | 8.1% |
+| degree_matched_random | 82.6 +/- 8.3 | 9.86 +/- 3.06 | 1.9% |
+
+**Sign structure is load-bearing.** Scrambling neurotransmitter signs is reliably
+worse than intact on all three outcomes (Cohen's d = 2.58, 3.80, 5.69, all
+p < 0.003).
+
+**Topology specificity is mixed.** Intact beats both topology nulls on pointing
+error (d = 1.00 and 1.42) but is statistically indistinguishable from both on
+figure-8 tracking and point-to-point error, with a minimum detectable effect of
+d = 0.89 at n=20.
+
+Read these as differences between degrees of failure. Every condition sits between
+71 and 87 degrees against a chance level near 90, because this is the uncalibrated
+pipeline. They bound how much the connectome perturbs a non-working model, not how
+much it contributes to working control.
+
+## Two connectomes
+
+| | FlyWire v783 (female) | MaleCNS v1.0 (male) |
+|---|---|---|
+| CX neurons | 1,051 | 1,161 (1,069 family-matched) |
+| Signed edges | 64,909 | 105,409 |
+| Synapses | 381,592 | 1,000,211 |
+
+The male extraction independently reproduces the textbook circuit signs on a
+different animal, sex and reconstruction pipeline: EPG cholinergic 46/46, Delta7
+glutamatergic 42/42, PFL3 cholinergic 24/24.
+
+The male graph carries roughly 2.6x the synapses per neuron, almost certainly
+reconstruction depth and the `minconf 0.5` synapse threshold rather than biology.
+`match_density.py` emits density-matched variants so that a difference between
+connectomes can be separated from a difference between reconstructions. See
+`MALECNS_EXTRACTION.md` and `DENSITY_CONTROL.md`.
+
+## The path below the neck
+
+MaleCNS is the first connectome with brain and ventral nerve cord traced in the
+same animal. `data/malecns_cx/dn_vnc_edges.csv` holds the descending-neuron to VNC
+to motor-neuron edge list (40,320 rows) for DNa02, DNp09 and MDN, the actuation
+targets of levers L2, L5 and L6.
+
+This matters for the problems above. CHORUS currently stops at the descending
+neuron and replaces everything below with a kinematic point mass carrying heading
+and speed. Below the neck there is no attractor calibration standing between the
+connectome and the behaviour, so the wiring is load-bearing by construction. If a
+PFL3 left-right bias produces a turn through real VNC circuitry, the connectome
+did that, and it cannot be attributed to hand-set gains.
+
+## Closed-loop task environment
+
+`chorus_env.py` provides a Gym-like API over the fly. Dependency-light
+(numpy/scipy/pandas/matplotlib; a `GymChorusEnv` wrapper appears if `gymnasium` is
+importable).
 
 ```python
 from chorus_env import ChorusEnv, TrackingTask
-env = ChorusEnv('data/flywire/cx_real.npz', 'data/flywire/cx_nodes.csv',
-                 n_electrodes=8, max_steps=400)
+env = ChorusEnv('data/cx_real.npz', 'data/cx_nodes.csv', n_electrodes=8)
 env.set_task(TrackingTask(path=my_figure8_xy))
-obs, info = env.reset(seed=0)          # obs = [decoded_heading, decoded_amp, target_bearing, target_range]
+obs, info = env.reset(seed=0)
 obs, reward, terminated, truncated, info = env.step((goal_heading, speed))
 ```
 
-- **Action** is the BCI write only: `(goal_heading_rad, speed)` (lever L1+L4
-  from the monograph). The agent never writes arbitrary neural state.
-- **Observation** is what a real implant could plausibly decode: the
-  population-vector EPG heading + amplitude, plus task-level target bearing
-  and range. `info` carries decoded heading, true body heading, compass-body
-  offset, and per-step angular error.
-- **Electrode model** (`Electrode` class) quantizes the goal to `n_electrodes`
-  sites tiling the EPG ring (heading error ≈ 90°/n), with optional per-step
-  goal noise and site dropout (§8).
-- **Compass calibration** (`calibrate=True/False`): reset() runs a
-  visual-landmark alignment epoch that sets the internal compass to the body's
-  allocentric heading before control starts (§7 design rule, discovered as an
-  init bug). Turning it off reproduces the failure on demand: mean
-  `|true_heading - goal|` over a fixed-goal probe goes from ~9° (calibrated)
-  to ~92° (uncalibrated) on the FlyWire connectome: a systematic compass-body
-  offset, not noise.
-- **Goal-write mechanism**: by default the goal is injected on the compass
-  ring's own `ext` channel and read out via `RingCX.pfl3_turn`. This is
-  exactly `cx_actuation.BCIFly`'s mechanism and is what the monograph's rate-
-  model numbers were measured with. `RingCX` also has a separate mechanistic
-  FC2 goal-bump layer (`init_goal_layer`/`step_goal`/`pfl3_turn_from_layer`)
-  that never touches the compass at all, more defensible against the spiking
-  model's "goal current teleports the compass bump" failure mode (§13), and
-  it is available via `ChorusEnv(..., goal_layer=True)`. It gives a visibly
-  worse ~5° steady pointing error in this codebase and is not what the
-  regression gate below checks; it is offered for anyone who wants the more
-  conservative, spiking-consistent architecture instead of the validated
-  rate-model one.
+- **Action** is the BCI write only: `(goal_heading_rad, speed)`. The agent never
+  writes arbitrary neural state. Restricting the channel to the one lever with
+  in-vivo precedent is the point, not a limitation.
+- **Observation** is what an implant could plausibly decode: population-vector EPG
+  heading and amplitude, plus target bearing and range.
+- **Electrode model** quantizes the goal to `n_electrodes` sites tiling the EPG
+  ring, with optional goal noise and site dropout.
+- **Compass calibration** (`calibrate=True/False`) runs a landmark-alignment epoch
+  before control starts. Turning it off reproduces the divergence failure on
+  demand, going from about 9 degrees to about 92 degrees of compass-body offset.
 
-**Tasks** (`PursuitTask`, `TrackingTask`, `ObstacleTask`) share the same env
-and differ only in target dynamics, observation of target bearing/range, and
-the metrics they accumulate (`task.metrics()` after an episode):
-
-| Task | Metric |
-|---|---|
-| `PursuitTask` | cross-track RMS to the moving target's path, capture time |
-| `TrackingTask` | cross-track RMS to a parametric path (figure-8, circle, ...) |
-| `ObstacleTask` | arrival rate, path efficiency (straight-line dist / path length), via an artificial-potential-field bearing that sums target attraction and obstacle repulsion |
-
-### CLI runner
+Tasks: `PursuitTask` (cross-track RMS, capture time), `TrackingTask` (cross-track
+RMS to a parametric path), `ObstacleTask` (arrival rate, path efficiency).
 
 ```
 python code/run_env.py --connectome flywire --task tracking --electrodes 8 \
     --steps 400 --seed 0 --out figures/run_tracking
 ```
 
-Runs one episode with a bearing-pursuit + distance/heading-taper controller,
-prints step progress, and writes `<out>.json` (metrics) and `<out>.png`
-(trajectory plot). `--connectome malecns` looks for
-`data/malecns_cx/cx_real_male.npz` + `cx_nodes_male.csv` and needs no code
-change once that extraction lands.
+`code/test_env_regression.py` gates the env against the published numbers. A
+failing check is left failing rather than tuned to pass. Note problem 2 above when
+interpreting a pass.
 
-### Regression gate
+## Repository
 
-`code/test_env_regression.py` asserts `ChorusEnv` reproduces the published
-FlyWire numbers within the tolerances specified in the task brief:
+- `CHORUS_fine_control.md` is the control monograph. Start here.
+- `COUNCIL_REVIEW.md` is an adversarial internal review of that monograph, verdict
+  MAJOR REVISION, with numbers recomputed from `data/results.json`.
+- `ABLATION_SPECIFICITY.md`, `KERNEL_RECOVERY.md`, `MALECNS_EXTRACTION.md`,
+  `DENSITY_CONTROL.md` are the follow-up studies.
+- `THREAT_MODEL.md` and `RESPONSIBLE_DISCLOSURE.md` cover dual-use.
+- `code/` holds the simulation stack, the extraction and analysis scripts, and the
+  environment. `data/` holds both connectomes and all results. `figures/` holds the
+  publication figures.
 
-| Check | Published | Tolerance | Measured |
-|---|---|---|---|
-| Pointing error (continuous goal-write) | 0.41° | <2° | 0.39° |
-| Figure-8 cross-track RMS | 0.17 u | <0.5 u | 0.07 u |
-| 8-electrode pointing error | ~10° | 7–14° | 10.2° |
+## Data provenance
 
-Run with `python code/test_env_regression.py` or `pytest code/test_env_regression.py`.
-A failing check is left failing rather than tuned to pass. The point of the
-gate is to catch drift, not to always report green.
+- **FlyWire v783**, public.
+- **MaleCNS v1.0**, CC-BY 4.0, from the FlyEM flat-connectome release. Source
+  tables (1.1 GB) are not committed; `code/extract_malecns_cx.py` documents the
+  URLs and SHA256s, and the derived CX subgraphs are committed under
+  `data/malecns_cx/`.
+
+No restricted data is used anywhere in this project.
+
+## Dual use
+
+This is computational work on public connectome data, but the capability it
+characterizes is directed control of an animal's navigation through a minimal
+brain implant, and that carries real weight. Any wet-lab realization steers a
+sentient animal against its own volition and falls under institutional animal-care
+oversight. In the abstract, a minimal implant that directs a flying insect to
+arbitrary targets with no external cue is a biological-drone capability.
+
+The MaleCNS release adds a traced brain-to-motor pathway in a single animal, which
+shifts that profile further. `RESPONSIBLE_DISCLOSURE.md` should be revised before
+any work extends below the neck.
 
 ## Reproducibility
 
-Python 3 + numpy/scipy/matplotlib/pandas. Each figure script reads from `data/`
-and is traceable through `results.json`. See PAPER.md for per-figure methods.
+Python 3 with numpy, scipy, pandas and matplotlib. Results trace through
+`data/results.json` and `data/ablation_results.json`. Seed handling is documented
+per script; note that the original monograph reports single-run point estimates
+without seed variance, which `COUNCIL_REVIEW.md` records as an open finding.
+
+## License
+
+MIT (code). MaleCNS v1.0 derived data is CC-BY 4.0, attribution to the FlyEM
+project team at HHMI Janelia, the University of Cambridge, the MRC Laboratory of
+Molecular Biology and Google Research.

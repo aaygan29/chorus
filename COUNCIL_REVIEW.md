@@ -1,7 +1,7 @@
 # Council Review, 2026-09-10
 
 Adversarial internal review of the CHORUS monograph (`CHORUS_fine_control.md`,
-byte-identical to `PAPER.md`) together with its artifacts, and of the MaleCNS v1.0
+which until this branch was duplicated byte-identically as `PAPER.md`) together with its artifacts, and of the MaleCNS v1.0
 replication work added in the `malecns-replication` branch. Mode: manuscript plus
 artifact, with numbers recomputed from `data/results.json` rather than read from
 the prose.
@@ -36,7 +36,7 @@ Three independent lines converge.
 
 **1. An unreported specificity ablation, already public in this repository.**
 `data/results.json` contains a `sphinx` block that appears nowhere in the
-manuscript. Searching both `CHORUS_fine_control.md` and `PAPER.md` for sphinx,
+manuscript. Searching the manuscript for sphinx,
 scramble, shuffle, random_graph or ablat returns zero hits.
 
 | Condition | frac_reached | Cohen's d vs intact |

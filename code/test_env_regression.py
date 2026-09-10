@@ -1,5 +1,5 @@
 """Regression gate: chorus_env.ChorusEnv must reproduce the published CHORUS
-numbers (docs/CHORUS_fine_control.md) on the real FlyWire v783 connectome.
+numbers (CHORUS_fine_control.md) on the real FlyWire v783 connectome.
 Tolerances are loose (per task spec) but real: if a number moves outside its
 band, this FAILS and prints the actual value. Do not widen a tolerance to
 silence a failure -- report the discrepancy instead.
@@ -9,8 +9,8 @@ import numpy as np
 from chorus_env import ChorusEnv, TrackingTask, wrap
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-NPZ = os.path.join(HERE, '..', 'data', 'flywire', 'cx_real.npz')
-CSV = os.path.join(HERE, '..', 'data', 'flywire', 'cx_nodes.csv')
+NPZ = os.path.join(HERE, '..', 'data', 'cx_real.npz')
+CSV = os.path.join(HERE, '..', 'data', 'cx_nodes.csv')
 
 
 def pointing_error_deg(n_electrodes, settle=100, trials=12):
