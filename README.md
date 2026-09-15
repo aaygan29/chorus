@@ -121,6 +121,13 @@ Read these as differences between degrees of failure. Every condition sits betwe
 pipeline. They bound how much the connectome perturbs a non-working model, not how
 much it contributes to working control.
 
+Independent, unrelated evidence for signed-additive node contributions: unilateral
+and bilateral superior colliculus inactivation in mice shifts left/right choice
+bias additively without changing sensory sensitivity (Takács et al. 2026, bioRxiv
+10.64898/2026.06.05.730072). Different species and circuit, and it does not
+validate CHORUS; see the "Related work" section of `ABLATION_SPECIFICITY.md` for
+what it does and does not license here.
+
 ## Two connectomes
 
 | | FlyWire v783 (female) | MaleCNS v1.0 (male) |
