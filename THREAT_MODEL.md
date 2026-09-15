@@ -1,6 +1,6 @@
 # The Neural Model-Extraction Attack Surface: An In-Silico Neurosecurity Framework
 
-Aayush Gandhi. Threat-model and framework document. No em dashes.
+Threat-model and framework document. No em dashes.
 
 This document reframes the Neuro-AI program as a cognitive-security problem. It defines a formal
 threat model for **neural model extraction** (stealing enough of a brain's weight-function to
