@@ -384,3 +384,31 @@ uses the connectome and does not work, a pipeline that works and does not use th
 connectome, and a bridge between them that cannot be reproduced from what shipped.
 Until one of those three changes, the connectome cannot be shown to be load-bearing
 for the published control results, in either direction.
+
+## Related work
+
+Takács et al. (2026, bioRxiv, doi 10.64898/2026.06.05.730072) inactivated the
+superior colliculus unilaterally and bilaterally in mice performing an
+audiovisual left/right localization task. Unilateral inactivation reduced
+contralateral choices without changing sensory sensitivity; bilateral
+inactivations were additive; a balanced bilateral inactivation restored the
+left/right choice balance. Their reading is that each side of the SC adds a
+signed bias to the action logit (promoting the contralateral action, slightly
+opposing the ipsilateral one) on top of a logistic decision rule, rather than
+changing how sensory evidence is weighed.
+
+This is a different species, circuit, and task from CHORUS (mammalian midbrain
+optogenetics on a discrete choice, versus a connectome-derived central complex
+model of continuous heading), and it does not validate anything about CHORUS's
+own results. What it offers is independent causal evidence, from a system
+CHORUS did not touch, that a single node's behaviorally relevant contribution
+can be summarized as a signed additive term on an action variable rather than
+as a change in sensitivity or topology per se. That is broadly consistent with
+what this ablation found here: `sign_scramble` is the manipulation that
+reliably hurts (d = 2.58-5.69), while topology-preserving-degree nulls
+(`edge_shuffle`, `degree_matched_random`) are mixed. It also suggests a
+falsifiable check for a future, calibrated version of this pipeline: unilateral
+versus bilateral in-silico lesions of signed CX pathways should produce
+additive, bias-shift effects on heading (not sensitivity changes), the same
+qualitative signature Takács et al. report in vivo. That check has not been run
+here and is not claimed as done.
